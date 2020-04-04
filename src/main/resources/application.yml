@@ -1,0 +1,12 @@
+server:
+  port: 8081
+
+spring:
+  jpa:
+    generate-ddl: false
+    properties:
+      hibernate:
+        hbm2ddl.auto: none
+        format_sql: true
+    open-in-view: false
+    database: h2
