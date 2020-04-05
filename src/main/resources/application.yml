@@ -1,12 +1,22 @@
 server:
-  port: 8081
-
+  port: 8080
 spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/tumblbug
+#    url: jdbc:h2:~/tumblbug
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
   jpa:
-    generate-ddl: false
+    hibernate:
+      ddl-auto: create-drop
     properties:
       hibernate:
-        hbm2ddl.auto: none
         format_sql: true
     open-in-view: false
     database: h2
+logging:
+  level:
+    org.hibernate:
+      SQL: debug
+      type: trace
