@@ -3,7 +3,6 @@ package com.tumblbug.domain.project;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -42,6 +41,7 @@ public class Project {
 
     private boolean flag;
 
+    @Column
     @Enumerated(value = EnumType.STRING)
     private Status status;
 
@@ -58,7 +58,7 @@ public class Project {
         this.count = count;
         this.amount = amount;
         this.flag = flag;
-        this.status = getStatus();
+        this.status = getStatusByProject();
     }
 
     public void update(String title, String description, LocalDateTime startDate, LocalDateTime endDate, Integer targetAmount, Integer amount, boolean flag) {
@@ -69,10 +69,10 @@ public class Project {
         this.targetAmount = targetAmount;
         this.amount = amount;
         this.flag = flag;
-        this.status = getStatus();
+        this.status = getStatusByProject();
     }
 
-    private Status getStatus(){
+    private Status getStatusByProject(){
         return Status.findByProject(this);
     }
 }
