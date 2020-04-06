@@ -1,5 +1,6 @@
 package com.tumblbug.domain.project;
 
+import com.tumblbug.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Project {
+public class Project extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -46,7 +47,7 @@ public class Project {
     private Status status;
 
     @Builder
-    public Project(String title, String description, String userName, String email, String phoneNumber, LocalDateTime startDate, LocalDateTime endDate, Integer targetAmount, Integer count, Integer amount, boolean flag) {
+    public Project(String title, String description, String userName, String email, String phoneNumber, LocalDateTime startDate, LocalDateTime endDate, Integer targetAmount, Integer count, Integer amount, boolean flag, Status status) {
         this.title = title;
         this.description = description;
         this.userName = userName;
@@ -58,21 +59,37 @@ public class Project {
         this.count = count;
         this.amount = amount;
         this.flag = flag;
-        this.status = getStatusByProject();
+        this.status = status;
     }
 
-    public void update(String title, String description, LocalDateTime startDate, LocalDateTime endDate, Integer targetAmount, Integer amount, boolean flag) {
+    public void update(String title, String description, LocalDateTime startDate, LocalDateTime endDate, Integer targetAmount, boolean flag) {
         this.title = title;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.targetAmount = targetAmount;
-        this.amount = amount;
         this.flag = flag;
-        this.status = getStatusByProject();
+        this.status = findStatusByProject();
     }
 
-    private Status getStatusByProject(){
+    /**
+     * 후원하기
+     * @param amount
+     */
+    public void donate(Integer amount) {
+        this.amount += amount;
+        this.count++;
+
+        if (count > 100000) {
+            throw new ExceedMaxCountException("Exceed max donation count");
+        }
+
+        if (amount > 100000000) {
+            throw new ExceedMaxAmountException("Exceed max donation amount");
+        }
+    }
+
+    private Status findStatusByProject(){
         return Status.findByProject(this);
     }
 }

@@ -3,7 +3,6 @@ server:
 spring:
   datasource:
     url: jdbc:h2:tcp://localhost/~/tumblbug
-#    url: jdbc:h2:~/tumblbug
     username: sa
     password:
     driver-class-name: org.h2.Driver
