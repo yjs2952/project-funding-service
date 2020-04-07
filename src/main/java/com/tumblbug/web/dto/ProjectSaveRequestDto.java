@@ -2,15 +2,13 @@ package com.tumblbug.web.dto;
 
 import com.tumblbug.domain.project.Project;
 import com.tumblbug.domain.project.Status;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
 @Getter @Setter @ToString
 public class ProjectSaveRequestDto {
     @NotBlank(message = "제목을 입력해 주세요.")

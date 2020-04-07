@@ -2,8 +2,6 @@ package com.tumblbug.common.exception;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +21,6 @@ import java.util.List;
 @ControllerAdvice
 public class CommonRestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @Qualifier("errorMessageSource")
-    private final MessageSource messageSource;
-
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ErrorResponse errorResponse = this.getErrorResponse(status, ex.getBindingResult());
@@ -40,7 +35,7 @@ public class CommonRestExceptionHandler extends ResponseEntityExceptionHandler {
      * @return
      */
     private ErrorResponse getErrorResponse(HttpStatus status, BindingResult bindingResult) {
-        ErrorResponse errorResponse = new ErrorResponse(CommonError.COMMON_BAD_REQUEST.getCode(), status);
+        ErrorResponse errorResponse = new ErrorResponse(CommonError.COMMON_BAD_REQUEST.getMessage(), status);
         List<String> errors = new ArrayList<>();
         for (FieldError error : bindingResult.getFieldErrors()) {
             errors.add(error.getField() + ": " + error.getDefaultMessage());

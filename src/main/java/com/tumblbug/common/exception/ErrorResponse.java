@@ -12,13 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ErrorResponse {
 
-    public ErrorResponse(String code, HttpStatus status) {
-        this.code = code;
-        this.status = status;
-    }
-
-    public ErrorResponse(String code, String message, HttpStatus status) {
-        this.code = code;
+    public ErrorResponse(String message, HttpStatus status) {
         this.message = message;
         this.status = status;
     }

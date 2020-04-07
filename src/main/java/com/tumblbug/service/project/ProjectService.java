@@ -7,6 +7,7 @@ import com.tumblbug.web.dto.ProjectListResponseDto;
 import com.tumblbug.web.dto.ProjectResponseDto;
 import com.tumblbug.web.dto.ProjectSaveRequestDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.util.UUID;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ProjectService {
@@ -68,6 +70,7 @@ public class ProjectService {
     @Transactional
     public String donate(String id, ProjectDonateRequestDto request){
         Project project = projectRepository.findById(UUID.fromString(id)).orElseThrow(() -> new EntityNotFoundException("해당 프로젝트가 존재하지 않습니다."));
+        log.debug("result : {}", project);
         project.donate(request.getAmount());
         return id;
     }

@@ -4,20 +4,18 @@ import org.springframework.http.HttpStatus;
 
 public enum CommonError {
 
-    COMMON_BAD_REQUEST("0000001", HttpStatus.BAD_REQUEST),
-    COMMON_INTERNAL_SERVER_ERROR("0000002", HttpStatus.INTERNAL_SERVER_ERROR),
-    COMMON_NOT_FOUND("0000003", HttpStatus.NOT_FOUND);
+    COMMON_BAD_REQUEST("요청 파라미터가 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
 
     private HttpStatus httpStatus;
-    private String code;
+    private String message;
 
-    CommonError(String code, HttpStatus httpStatus) {
-        this.code = code;
+    CommonError(String message, HttpStatus httpStatus) {
+        this.message = message;
         this.httpStatus = httpStatus;
     }
 
-    public String getCode() {
-        return this.code;
+    public String getMessage() {
+        return this.message;
     }
 
     public int getStatus() {
