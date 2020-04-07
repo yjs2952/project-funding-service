@@ -1,7 +1,7 @@
 package com.tumblbug.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tumblbug.web.dto.ProjectDto;
+import com.tumblbug.web.dto.ProjectSaveRequestDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +32,17 @@ public class ProjectApiControllerTest {
     public void 프로젝트_등록_요청_파라미터_유효성_검사() throws Exception {
 
         // given
-        ProjectDto.SaveRequest dto = new ProjectDto.SaveRequest();
-        dto.setTitle("프로젝트 제목");
-        dto.setDescription("프로젝트 설명");
-        dto.setUserName("jason");
-        dto.setEmail("yjs2952@gmail.com");
-        dto.setPhoneNumber("010-7181-2952");
-        dto.setStartDate(LocalDateTime.of(2020, 4, 3, 12, 0));
-        dto.setEndDate(LocalDateTime.of(2020, 4, 10, 12, 0));
-        dto.setTargetAmount(1000000);
-        dto.setFlag(true);
+        ProjectSaveRequestDto dto = ProjectSaveRequestDto.builder()
+                .title("프로젝트 제목")
+                .description("프로젝트 설명")
+                .userName("jason")
+                .email("yjs2952@gmail.com")
+                .phoneNumber("010-7181-2952")
+                .startDate(LocalDateTime.of(2020, 4, 3, 12, 0))
+                .endDate(LocalDateTime.of(2020, 4, 10, 12, 0))
+                .targetAmount(1000000)
+                .flag(true)
+                .build();
 
         // when
 //        when(projectService.save(dto)).thenReturn("프로젝트 제목1");

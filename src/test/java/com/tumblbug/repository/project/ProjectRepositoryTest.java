@@ -2,7 +2,7 @@ package com.tumblbug.repository.project;
 
 import com.tumblbug.domain.project.Project;
 import com.tumblbug.domain.project.ProjectRepository;
-import com.tumblbug.web.dto.ProjectDto;
+import com.tumblbug.web.dto.ProjectSaveRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
@@ -27,20 +27,22 @@ public class ProjectRepositoryTest {
     @Autowired
     private ProjectRepository projectRepository;
 
-    private ProjectDto.SaveRequest dto;
+    private ProjectSaveRequestDto dto;
 
     @Before
     public void setUp(){
-        dto = new ProjectDto.SaveRequest();
-        dto.setTitle("프로젝트 제목");
-        dto.setDescription("프로젝트 설명");
-        dto.setUserName("jason");
-        dto.setEmail("yjs2952@gmail.com");
-        dto.setPhoneNumber("010-7181-2952");
-        dto.setStartDate(LocalDateTime.of(2020, 4, 3, 12, 0));
-        dto.setEndDate(LocalDateTime.of(2020, 4, 10, 12, 0));
-        dto.setTargetAmount(1000000);
-        dto.setFlag(true);
+
+        dto = ProjectSaveRequestDto.builder()
+                .title("프로젝트 제목")
+                .description("프로젝트 설명")
+                .userName("jason")
+                .email("yjs2952@gmail.com")
+                .phoneNumber("010-7181-2952")
+                .startDate(LocalDateTime.of(2020, 4, 3, 12, 0))
+                .endDate(LocalDateTime.of(2020, 4, 10, 12, 0))
+                .targetAmount(1000000)
+                .flag(true)
+                .build();
 
         projectRepository.save(dto.toEntity());
     }
@@ -51,16 +53,17 @@ public class ProjectRepositoryTest {
     public void 프로젝트_등록_테스트(){
 
         // given
-        dto = new ProjectDto.SaveRequest();
-        dto.setTitle("프로젝트 제목1");
-        dto.setDescription("프로젝트 설명2");
-        dto.setUserName("jason3");
-        dto.setEmail("yjs2952@gmail.com");
-        dto.setPhoneNumber("010-7181-2952");
-        dto.setStartDate(LocalDateTime.of(2020, 4, 3, 12, 0));
-        dto.setEndDate(LocalDateTime.of(2020, 4, 10, 12, 0));
-        dto.setTargetAmount(1000000);
-        dto.setFlag(true);
+        dto = ProjectSaveRequestDto.builder()
+                .title("프로젝트 제목333")
+                .description("프로젝트 설명333")
+                .userName("jason333")
+                .email("yjs2952@gmail.com")
+                .phoneNumber("010-7181-2952")
+                .startDate(LocalDateTime.of(2020, 4, 3, 12, 0))
+                .endDate(LocalDateTime.of(2020, 4, 10, 12, 0))
+                .targetAmount(1000000)
+                .flag(true)
+                .build();
 
         // when
         Project savedProject = projectRepository.save(dto.toEntity());

@@ -93,11 +93,11 @@ public class Project extends BaseTimeEntity {
         this.count++;
 
         if (count > 100000) {
-            throw new ExceedMaxCountException("Exceed max donation count");
+            throw new ExceedMaxCountException("최대 후원금 100,000원을 초과했습니다.");
         }
 
         if (amount > 100000000) {
-            throw new ExceedMaxAmountException("Exceed max donation amount");
+            throw new ExceedMaxAmountException("최대 후원수 100,000,000를 초과했습니다.");
         }
 
         this.status = findCurrentStatus();

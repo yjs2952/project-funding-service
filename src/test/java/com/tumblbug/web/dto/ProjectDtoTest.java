@@ -28,22 +28,23 @@ public class ProjectDtoTest {
     @Test
     public void dto_유효성_검사_테스트() throws Exception {
         // given
-        ProjectDto.SaveRequest dto = new ProjectDto.SaveRequest();
-        dto.setTitle("프로젝트_aS12 제목%^&");
-        dto.setDescription("프로젝트 aS12_설명%^&");
-        dto.setUserName("jasonaS12 _%^&");
-        dto.setEmail("yjs2952@gmail.com");
-        dto.setPhoneNumber("010-7234181-2952");
-        dto.setStartDate(LocalDateTime.of(2020, 4, 3, 12, 0));
-        dto.setEndDate(LocalDateTime.of(2020, 4, 10, 12, 0));
-        dto.setTargetAmount(1000000000);
-        dto.setFlag(true);
+        ProjectSaveRequestDto dto = ProjectSaveRequestDto.builder()
+                .title("프로젝트_aS12 제목%^&")
+                .description("프로젝트 aS12_설명%^&")
+                .userName("jasonaS12 _%^&")
+                .email("yjs2952@gmail.com")
+                .phoneNumber("010-7234181-2952")
+                .startDate(LocalDateTime.of(2020, 4, 3, 12, 0))
+                .endDate(LocalDateTime.of(2020, 4, 10, 12, 0))
+                .targetAmount(1000000000)
+                .flag(true)
+                .build();
 
         // when
-        Set<ConstraintViolation<ProjectDto.SaveRequest>> constraintViolations = validator.validate(dto);
+        Set<ConstraintViolation<ProjectSaveRequestDto>> constraintViolations = validator.validate(dto);
 
         // then
-        for(ConstraintViolation<ProjectDto.SaveRequest> constraintViolation : constraintViolations){
+        for(ConstraintViolation<ProjectSaveRequestDto> constraintViolation : constraintViolations){
             log.debug("violation error message : {}", constraintViolation.getMessage());
         }
 
