@@ -58,7 +58,7 @@ public class ProjectApiController {
 
     @ApiOperation(value = "프로젝트 후원")
     @PutMapping("/{id}/donate")
-    public String update(@PathVariable String id, @RequestBody ProjectDonateRequestDto request){
+    public String update(@PathVariable String id, @RequestBody @Valid ProjectDonateRequestDto request){
         log.debug("request params : {}", request);
         return projectService.donate(id, request);
     }

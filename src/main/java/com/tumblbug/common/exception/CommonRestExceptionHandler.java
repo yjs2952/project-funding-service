@@ -1,5 +1,7 @@
 package com.tumblbug.common.exception;
 
+import com.tumblbug.domain.project.ExceedMaxAmountException;
+import com.tumblbug.domain.project.ExceedMaxCountException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -10,9 +12,12 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,5 +50,29 @@ public class CommonRestExceptionHandler extends ResponseEntityExceptionHandler {
         }
         errorResponse.setErrors(errors);
         return errorResponse;
+    }
+
+    @ExceptionHandler({ExceedMaxCountException.class})
+    public ResponseEntity<ErrorResponse> exceedMaxCountExceptionHandler(final ExceedMaxCountException ex,
+                                                                     HttpServletRequest request) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        error.setPath(request.getRequestURI());
+        return new ResponseEntity<>(error, null, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ExceedMaxAmountException.class})
+    public ResponseEntity<ErrorResponse> exceedMaxAmountExceptionHandler(final ExceedMaxAmountException ex,
+                                                                     HttpServletRequest request) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        error.setPath(request.getRequestURI());
+        return new ResponseEntity<>(error, null, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({EntityNotFoundException.class})
+    public ResponseEntity<ErrorResponse> notFoundExceptionHandler(final EntityNotFoundException ex,
+                                                                     HttpServletRequest request) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
+        error.setPath(request.getRequestURI());
+        return new ResponseEntity<>(error, null, HttpStatus.NOT_FOUND);
     }
 }
