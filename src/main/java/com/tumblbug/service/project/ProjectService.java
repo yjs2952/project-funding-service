@@ -18,17 +18,16 @@ import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
 
-    @Transactional
     public String save(ProjectSaveRequestDto requestDto){
         return projectRepository.save(requestDto.toEntity()).getId().toString();
     }
 
-    @Transactional
     public String update(String id, ProjectSaveRequestDto requestDto){
         UUID uuid = UUID.fromString(id);
         Project project = projectRepository.findById(uuid).orElseThrow(() -> new EntityNotFoundException("해당 프로젝트가 존재하지 않습니다."));
@@ -46,7 +45,6 @@ public class ProjectService {
         return id;
     }
 
-    @Transactional
     public String remove(String id){
         UUID uuid = UUID.fromString(id);
         Project project = projectRepository.findById(uuid).orElseThrow(() -> new EntityNotFoundException("해당 프로젝트가 존재하지 않습니다."));
@@ -67,7 +65,6 @@ public class ProjectService {
         return new ProjectResponseDto(project);
     }
 
-    @Transactional
     public String donate(String id, ProjectDonateRequestDto request){
         Project project = projectRepository.findById(UUID.fromString(id)).orElseThrow(() -> new EntityNotFoundException("해당 프로젝트가 존재하지 않습니다."));
         log.debug("result : {}", project);
