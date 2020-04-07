@@ -62,14 +62,26 @@ public class Project extends BaseTimeEntity {
         this.status = status;
     }
 
-    public void update(String title, String description, LocalDateTime startDate, LocalDateTime endDate, Integer targetAmount, boolean flag) {
+    /**
+     * 프로젝트 업데이트
+     * @param title
+     * @param description
+     * @param startDate
+     * @param endDate
+     * @param targetAmount
+     * @param flag
+     */
+    public void update(String title, String description, LocalDateTime startDate, LocalDateTime endDate, Integer targetAmount, boolean flag, String userName, String email, String phoneNumber) {
         this.title = title;
         this.description = description;
+        this.userName = userName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
         this.startDate = startDate;
         this.endDate = endDate;
         this.targetAmount = targetAmount;
         this.flag = flag;
-        this.status = findStatusByProject();
+        this.status = findCurrentStatus();
     }
 
     /**
@@ -87,9 +99,16 @@ public class Project extends BaseTimeEntity {
         if (amount > 100000000) {
             throw new ExceedMaxAmountException("Exceed max donation amount");
         }
+
+        this.status = findCurrentStatus();
     }
 
-    private Status findStatusByProject(){
+    public Status getStatus(){
+        this.status = findCurrentStatus();
+        return status;
+    }
+
+    private Status findCurrentStatus(){
         return Status.findByProject(this);
     }
 }

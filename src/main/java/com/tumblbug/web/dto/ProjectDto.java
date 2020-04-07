@@ -12,9 +12,7 @@ import java.time.LocalDateTime;
 
 public class ProjectDto {
 
-    @Getter
-    @Setter
-    @ToString
+    @Getter @Setter @ToString
     public static class SaveRequest {
 
         @NotBlank(message = "제목을 입력해 주세요.")
@@ -53,15 +51,6 @@ public class ProjectDto {
         @Max(value = 100000000, message = "최대 100,000,000 원을 넘을 수 없습니다.")
         private Integer targetAmount;
 
-//        @NotNull(message = "후원수를 입력해 주세요.")
-//        @PositiveOrZero(message = "음수 값을 입력할 수 없습니다.")
-//        @Max(value = 100000, message = "최대 100,000 을 넘을 수 없습니다.")
-//        private Integer count;
-
-        @PositiveOrZero(message = "음수 값을 입력할 수 없습니다.")
-        @Max(value = 100000000, message = "최대 100,000,000 원을 넘을 수 없습니다.")
-        private Integer amount;
-
         private boolean flag = true;
 
         public Project toEntity() {
@@ -80,5 +69,64 @@ public class ProjectDto {
                     .status(Status.PREPARE)
                     .build();
         }
+    }
+
+    @Getter @Setter @ToString
+    public static class ListResponse {
+        private String title;
+        private String userName;
+        private Integer targetAmount;
+        private Integer count;
+        private Integer amount;
+        private String status;
+        private LocalDateTime startDate;
+        private LocalDateTime endDate;
+
+        public ListResponse(Project project) {
+            this.title = project.getTitle();
+            this.userName = project.getUserName();
+            this.targetAmount = project.getTargetAmount();
+            this.count = project.getCount();
+            this.amount = project.getAmount();
+            this.status = project.getStatus().name();
+            this.startDate = project.getStartDate();
+            this.endDate = project.getEndDate();
+        }
+    }
+
+    @Getter @Setter @ToString
+    public static class Response {
+        private String title;
+        private String description;
+        private String userName;
+        private String email;
+        private String phoneNumber;
+        private LocalDateTime startDate;
+        private LocalDateTime endDate;
+        private Integer targetAmount;
+        private Integer count;
+        private Integer amount;
+        private boolean flag;
+        private String status;
+
+        public Response(Project project) {
+            this.title = project.getTitle();
+            this.description = project.getDescription();
+            this.userName = project.getUserName();
+            this.email = project.getEmail();
+            this.phoneNumber = project.getPhoneNumber();
+            this.startDate = project.getStartDate();
+            this.endDate = project.getEndDate();
+            this.targetAmount = project.getTargetAmount();
+            this.count = project.getCount();
+            this.amount = project.getAmount();
+            this.flag = project.isFlag();
+            this.status = project.getStatus().name();
+        }
+    }
+
+    @Getter @Setter @ToString
+    public static class DonateRequest {
+        Integer amount;
     }
 }

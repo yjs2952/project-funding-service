@@ -10,7 +10,7 @@ public class ProjectTest {
     @Test
     public void 프로젝트_상태값_테스트() {
         Project project1 = Project.builder()
-                .startDate(LocalDateTime.of(2020, 4, 7, 12, 0, 0))
+                .startDate(LocalDateTime.of(2020, 4, 8, 12, 0, 0))
                 .endDate(LocalDateTime.of(2020, 4, 10, 12, 0, 0))
                 .targetAmount(50000)
                 .amount(10000)

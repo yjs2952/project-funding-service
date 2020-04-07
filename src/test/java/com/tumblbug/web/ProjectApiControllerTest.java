@@ -1,57 +1,56 @@
 package com.tumblbug.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tumblbug.web.dto.ProjectDto;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.time.LocalDateTime;
-import java.util.Set;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Slf4j
-//@RunWith(SpringRunner.class)
-//@WebMvcTest(controllers = ProjectApiController.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@AutoConfigureMockMvc
 public class ProjectApiControllerTest {
 
-    private static Validator validator;
+    @Autowired
+    private MockMvc mvc;
 
-    @BeforeClass
-    public static void setUp() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
-    }
+    @Autowired
+    private ObjectMapper mapper;
 
     @Test
-    public void dto_유효성_검사_테스트() throws Exception {
+    public void 프로젝트_등록_요청_파라미터_유효성_검사() throws Exception {
+
         // given
         ProjectDto.SaveRequest dto = new ProjectDto.SaveRequest();
-        dto.setTitle("프로젝트_aS12 제목%^&");
-        dto.setDescription("프로젝트 aS12_설명%^&");
-        dto.setUserName("jasonaS12 _%^&");
+        dto.setTitle("프로젝트 제목");
+        dto.setDescription("프로젝트 설명");
+        dto.setUserName("jason");
         dto.setEmail("yjs2952@gmail.com");
-        dto.setPhoneNumber("010-7234181-2952");
+        dto.setPhoneNumber("010-7181-2952");
         dto.setStartDate(LocalDateTime.of(2020, 4, 3, 12, 0));
         dto.setEndDate(LocalDateTime.of(2020, 4, 10, 12, 0));
-        dto.setTargetAmount(1000000000);
-//        dto.setCount(1000000);
-        dto.setAmount(1000000000);
+        dto.setTargetAmount(1000000);
         dto.setFlag(true);
 
         // when
-        Set<ConstraintViolation<ProjectDto.SaveRequest>> constraintViolations = validator.validate(dto);
-
+//        when(projectService.save(dto)).thenReturn("프로젝트 제목1");
         // then
-        for(ConstraintViolation<ProjectDto.SaveRequest> constraintViolation : constraintViolations){
-            log.debug("violation error message : {}", constraintViolation.getMessage());
-        }
-
-        assertThat(constraintViolations.size(), is(6));
+        mvc.perform(
+                post("/api/projects")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(mapper.writeValueAsString(dto))
+        ).andExpect(status().isOk())
+        .andDo(print());
     }
 }

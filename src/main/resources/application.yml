@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8090
 spring:
   datasource:
     url: jdbc:h2:tcp://localhost/~/tumblbug
@@ -8,14 +8,27 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
     open-in-view: false
     database: h2
+  data:
+    web:
+      pageable:
+        default-page-size: 10
 logging:
   level:
-    org.hibernate:
-      SQL: debug
-      type: trace
+    com.tumblbug : debug
+    org:
+      springframework:
+        web: debug
+        jdbc: debug
+        transaction: trace
+      hibernate:
+        SQL: debug
+        type:
+          BasicTypeRegistry: off
+          descriptor.sql.BasicBinder: trace
+
