@@ -78,14 +78,14 @@ public class ProjectApiControllerTest {
                 .build();
 
         // when
-
-        // then
         mvc.perform(
                 post("/api/projects/")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(mapper.writeValueAsString(dto))
-        ).andExpect(status().isOk())
-                .andDo(print());
+        )
+        // then
+        .andExpect(status().isOk())
+        .andDo(print());
     }
 
     @Test
@@ -108,11 +108,12 @@ public class ProjectApiControllerTest {
 
         String uuid = project.getId().toString();
 
-        // then
+        // when
         mvc.perform(
                 put("/api/projects/" + uuid)
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(mapper.writeValueAsString(dto))
+        // then
         ).andExpect(status().isOk())
                 .andDo(print());
     }
@@ -125,10 +126,11 @@ public class ProjectApiControllerTest {
 
         String uuid = project.getId().toString();
 
-        // then
+        // when
         mvc.perform(delete("/api/projects/" + uuid))
-                .andExpect(status().isOk())
-                .andDo(print());
+            // then
+            .andExpect(status().isOk())
+            .andDo(print());
     }
 
     @Test
@@ -145,14 +147,18 @@ public class ProjectApiControllerTest {
     @Test
     public void 프로젝트_후원_테스트() throws Exception{
 
+        // given
         ProjectDonateRequestDto dto = new ProjectDonateRequestDto();
         dto.setAmount(10000);
 
+        // when
         mvc.perform(
                 put("/api/projects/" + uuid + "/donate")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(mapper.writeValueAsString(dto))
-        ).andExpect(status().isOk())
-                .andDo(print());
+        )
+        // then
+        .andExpect(status().isOk())
+        .andDo(print());
     }
 }

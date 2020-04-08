@@ -16,9 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -72,6 +70,7 @@ public class ProjectServiceTest {
     @Test
     public void 프로젝트_등록_테스트(){
 
+        // given
         ProjectSaveRequestDto dto = ProjectSaveRequestDto.builder()
                 .title("프로젝트 제목")
                 .description("프로젝트 설명")
@@ -84,16 +83,17 @@ public class ProjectServiceTest {
                 .flag(true)
                 .build();
 
+        // when
         String id = projectService.save(dto);
 
+        // then
         Assertions.assertThat(id).isNotEmpty();
     }
 
     @Test
-    @Rollback(false)
-    @Transactional
-    public void 프로젝트_수정_테스트(){
+    public void 프로qq젝트_수정_테스트(){
 
+        // given
         ProjectSaveRequestDto request = ProjectSaveRequestDto.builder()
                 .title("프로젝트 제목111")
                 .description("프로젝트 설명111")
@@ -106,19 +106,23 @@ public class ProjectServiceTest {
                 .flag(true)
                 .build();
 
+        // when
         projectService.update(id, request);
 
-        Project findProject = projectRepository.getOne(UUID.fromString(id));
+        ProjectResponseDto dto = projectService.findOne(id);
 
-        Assertions.assertThat(request.getTitle()).isEqualTo(findProject.getTitle());
+        // then
+        Assertions.assertThat(request.getTitle()).isEqualTo(dto.getTitle());
     }
 
     @Test
     public void 프로젝트_조회(){
 
+        // when
         ProjectResponseDto one = projectService.findOne(id);
         Page<ProjectListResponseDto> page = projectService.findAll(PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "targetAmount")));
 
+        // then
         Assertions.assertThat(one).isNotNull();
         Assertions.assertThat(page.getTotalElements()).isEqualTo(2);
 
@@ -129,16 +133,19 @@ public class ProjectServiceTest {
     @Test
     public void 프로젝트_삭제(){
 
+        // when
         String removeId = projectService.remove(id);
 
         Optional<Project> optional = projectRepository.findById(UUID.fromString(removeId));
 
+        // then
         Assertions.assertThat(optional.isPresent()).isFalse();
     }
 
     @Test
-    @Transactional
     public void 프로젝트_후원(){
+
+        // given
         ProjectDonateRequestDto request = new ProjectDonateRequestDto();
         request.setAmount(10000);
 
@@ -146,11 +153,13 @@ public class ProjectServiceTest {
         Integer amount = one.getAmount();
         Integer count = one.getCount();
 
+        // when
         projectService.donate(id, request);
 
-        Project project = projectRepository.getOne(UUID.fromString(id));
+        ProjectResponseDto dto = projectService.findOne(id);
 
-        Assertions.assertThat(amount + request.getAmount()).isEqualTo(project.getAmount());
-        Assertions.assertThat(count + 1).isEqualTo(project.getCount());
+        // then
+        Assertions.assertThat(amount + request.getAmount()).isEqualTo(dto.getAmount());
+        Assertions.assertThat(count + 1).isEqualTo(dto.getCount());
     }
 }

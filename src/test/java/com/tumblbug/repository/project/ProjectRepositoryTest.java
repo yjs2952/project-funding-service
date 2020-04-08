@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
@@ -48,7 +47,6 @@ public class ProjectRepositoryTest {
     }
 
 
-    @Rollback(false)
     @Test
     public void 프로젝트_등록_테스트(){
 
@@ -73,7 +71,6 @@ public class ProjectRepositoryTest {
         Assertions.assertThat(dto.getTitle()).isEqualTo(savedProject.getTitle());
     }
 
-    @Rollback(false)
     @Test
     public void 프로젝트_업데이트(){
 
@@ -126,12 +123,11 @@ public class ProjectRepositoryTest {
 
         // then
         Assertions.assertThat(selectProject.isPresent()).isTrue();
-        Assertions.assertThat(projects.getTotalElements()).isEqualTo(1);
+        Assertions.assertThat(projects.getTotalElements()).isEqualTo(2);
 
         log.debug("result : {}", projects.getContent().get(0).getId());
     }
 
-    @Rollback(false)
     @Test
     public void 프로젝트_삭제_테스트(){
         // given
