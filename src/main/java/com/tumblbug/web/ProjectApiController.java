@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,6 +26,7 @@ public class ProjectApiController {
     private final ProjectService projectService;
 
     @ApiOperation(value = "프로젝트 등록")
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public String create(@RequestBody @Valid ProjectSaveRequestDto requestDto) {
         log.debug("request params : {}", requestDto);

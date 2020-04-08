@@ -71,8 +71,8 @@ public class CommonRestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({EntityNotFoundException.class})
     public ResponseEntity<ErrorResponse> notFoundExceptionHandler(final EntityNotFoundException ex,
                                                                      HttpServletRequest request) {
-        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.NO_CONTENT);
         error.setPath(request.getRequestURI());
-        return new ResponseEntity<>(error, null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(error, null, HttpStatus.NO_CONTENT);
     }
 }

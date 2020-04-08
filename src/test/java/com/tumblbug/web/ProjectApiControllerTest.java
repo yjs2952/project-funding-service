@@ -62,11 +62,11 @@ public class ProjectApiControllerTest {
     }
 
     @Test
-    public void 프로젝트_등록_요청_파라미터_유효성_검사() throws Exception {
+    public void 프로젝트_등록_테스트() throws Exception {
 
         // given
         ProjectSaveRequestDto dto = ProjectSaveRequestDto.builder()
-                .title("프로젝트 제목!@#")
+                .title("프로젝트 제목")
                 .description("프로젝트 설명")
                 .userName("jason")
                 .email("yjs2952@gmail.com")
@@ -84,7 +84,7 @@ public class ProjectApiControllerTest {
                         .content(mapper.writeValueAsString(dto))
         )
         // then
-        .andExpect(status().isOk())
+        .andExpect(status().isCreated())
         .andDo(print());
     }
 
