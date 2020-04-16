@@ -111,6 +111,6 @@ public class Project extends BaseTimeEntity {
     }
 
     private Status findCurrentStatus(){
-        return Status.findByProject(this);
+        return Status.findByProject(this);  // 엔티티를 넘기는 건 좋지 않은 듯....
     }
 }

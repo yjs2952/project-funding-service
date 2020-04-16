@@ -2,7 +2,6 @@ package com.tumblbug.common.exception;
 
 import com.tumblbug.domain.project.ExceedMaxAmountException;
 import com.tumblbug.domain.project.ExceedMaxCountException;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@RequiredArgsConstructor
 @ControllerAdvice
 public class CommonRestExceptionHandler extends ResponseEntityExceptionHandler {
 

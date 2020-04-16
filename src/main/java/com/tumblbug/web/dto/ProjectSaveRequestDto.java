@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter @Setter @ToString
 public class ProjectSaveRequestDto {
     @NotBlank(message = "제목을 입력해 주세요.")
-    @Size(max = 50, message = "50자 이내로 입력해주세요.")
+    @Size(max = 50, message = "50자 이내로 입력해 주세요.")
     @Pattern(regexp = "^[0-9a-zA-Z가-힣\\s]*$", message = "한글, 숫자, 영문만 입력가능합니다.")
     private String title;
 
