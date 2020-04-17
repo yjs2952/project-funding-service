@@ -1,6 +1,7 @@
 package com.tumblbug.domain.project;
 
 import com.tumblbug.domain.BaseTimeEntity;
+import com.tumblbug.web.dto.DonationDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -111,6 +112,12 @@ public class Project extends BaseTimeEntity {
     }
 
     private Status findCurrentStatus(){
-        return Status.findByProject(this);  // 엔티티를 넘기는 건 좋지 않은 듯....
+        DonationDto dto = DonationDto.builder()
+                .amount(amount)
+                .startDate(startDate)
+                .endDate(endDate)
+                .build();
+
+        return Status.findCurrentStatus(dto);  // 엔티티를 넘기는 건 좋지 않은 듯....
     }
 }

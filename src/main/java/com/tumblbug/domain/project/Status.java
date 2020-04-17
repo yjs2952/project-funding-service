@@ -1,5 +1,6 @@
 package com.tumblbug.domain.project;
 
+import com.tumblbug.web.dto.DonationDto;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -13,19 +14,19 @@ public enum Status {
     SUCCESS(p -> LocalDateTime.now().isAfter(p.getEndDate()) && p.getAmount() >= p.getTargetAmount()),
     FAILURE(p -> LocalDateTime.now().isAfter(p.getEndDate()) && p.getAmount() < p.getTargetAmount());
 
-    private Predicate<Project> condition;
+    private Predicate<DonationDto> condition;
 
-    Status(Predicate<Project> condition) {
+    Status(Predicate<DonationDto> condition) {
         this.condition = condition;
     }
 
-    public boolean check(Project project) {
-        return condition.test(project);
+    public boolean check(DonationDto dto) {
+        return condition.test(dto);
     }
 
-    public static Status findByProject(Project project) {
+    public static Status findCurrentStatus(DonationDto dto) {
         return Arrays.stream(Status.values())
-                .filter(status -> status.check(project))
+                .filter(status -> status.check(dto))
                 .findAny()
                 .orElseThrow(RuntimeException::new);
     }
