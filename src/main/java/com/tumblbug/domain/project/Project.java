@@ -114,7 +114,7 @@ public class Project extends BaseTimeEntity {
     private Status findCurrentStatus(){
         DonationDto dto = DonationDto.builder()
                 .amount(amount)
-                .targetAmount(amount)
+                .targetAmount(targetAmount)
                 .startDate(startDate)
                 .endDate(endDate)
                 .build();
