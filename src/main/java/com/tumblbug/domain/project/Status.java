@@ -14,7 +14,7 @@ public enum Status {
     SUCCESS(p -> LocalDateTime.now().isAfter(p.getEndDate()) && p.getAmount() >= p.getTargetAmount()),
     FAILURE(p -> LocalDateTime.now().isAfter(p.getEndDate()) && p.getAmount() < p.getTargetAmount());
 
-    private Predicate<DonationDto> condition;
+    private final Predicate<DonationDto> condition;
 
     Status(Predicate<DonationDto> condition) {
         this.condition = condition;
@@ -28,6 +28,6 @@ public enum Status {
         return Arrays.stream(Status.values())
                 .filter(status -> status.check(dto))
                 .findAny()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(IllegalStateException::new);
     }
 }

@@ -84,7 +84,7 @@ public class Project extends BaseTimeEntity {
         this.endDate = endDate;
         this.targetAmount = targetAmount;
         this.flag = flag;
-        this.status = findCurrentStatus();
+        this.status = getCurrentStatus();
     }
 
     /**
@@ -103,15 +103,15 @@ public class Project extends BaseTimeEntity {
             throw new ExceedMaxAmountException("최대 후원 가능금액 100,000,000원을 초과했습니다.");
         }
 
-        this.status = findCurrentStatus();
+        this.status = getCurrentStatus();
     }
 
     public Status getStatus(){
-        this.status = findCurrentStatus();
+        this.status = getCurrentStatus();
         return status;
     }
 
-    private Status findCurrentStatus(){
+    private Status getCurrentStatus(){
         DonationDto dto = DonationDto.builder()
                 .amount(amount)
                 .targetAmount(targetAmount)
@@ -119,6 +119,6 @@ public class Project extends BaseTimeEntity {
                 .endDate(endDate)
                 .build();
 
-        return Status.findCurrentStatus(dto);  // 엔티티를 넘기는 건 좋지 않은 듯....
+        return Status.findCurrentStatus(dto);
     }
 }
